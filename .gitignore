@@ -1,0 +1,21 @@
+cat <<EOF > .gitignore
+# Build directories
+build/
+out/
+bin/
+
+# Compiled files
+*.o
+*.a
+*.so
+
+# Executables
+scheduler_app
+
+# IDE files
+.vscode/
+.idea/
+
+# System files
+.DS_Store
+EOF
