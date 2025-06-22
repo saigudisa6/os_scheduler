@@ -37,7 +37,8 @@ void FCFSScheduler::update_stats_for_completed_processes() {
 
         for(Process* p : all_processes_){
             // check that the process actually ran
-            if(p->current_state == Process::State::COMPLETED && p->start_time.load().count() != 0){
+            if(p->current_state.load() == Process::State::COMPLETED && p->start_time.load().count() != -1){
+                
 
                 stats_.total_processes_completed++;
 
@@ -160,6 +161,7 @@ void FCFSScheduler::handle_new_arrivals() {
     std::lock_guard<std::mutex> lock(scheduler_mutex_);
 
     for (Process* p : all_processes_){
+        // std::cout << p->arrival_time << " " << current_sim_time_ << std::endl;
         if(p->arrival_time <= current_sim_time_){
             if(ready_queue_.enqueue(p));
             std::cout   << "Process " << p->pid << " arrived and added to task queue at " 

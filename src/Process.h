@@ -32,6 +32,7 @@ struct Process {
         start_time(std::chrono::nanoseconds(0)), completion_time(std::chrono::nanoseconds(0)), last_run_timestamp(std::chrono::nanoseconds(0)),
         current_state(State::READY){
         task=[this]() {
+            std::cout << "Executing task" << std::endl;
             // simulating simple work done by CPU
             volatile int x = 0; // volatile to make sure CPU doesn't optimize
             for(int i = 0; i < 10; ++i){ i++; }
@@ -53,15 +54,18 @@ struct Process {
         }
 
         task();
-        remaining_time.store(remaining_time.load() - 1ns);
+        // remaining_time.store(remaining_time.load() - 1ns);
+        remaining_time.store(0ns);
         last_run_timestamp.store(curr_sim_time + 1ns);
 
         if(remaining_time.load() <= std::chrono::nanoseconds(0)){
-            completion_time.store(curr_sim_time + 1ns);
+            // completion_time.store(curr_sim_time + 1ns);
+            completion_time.store(curr_sim_time + burst_time);
             current_state.store(State::COMPLETED);
         } else {
             current_state.store(State::BLOCKED);
         }
+        std::cout << "Remaining time seen: " << remaining_time.load().count() << std::endl;
     }
 
     // metrics relating to the process

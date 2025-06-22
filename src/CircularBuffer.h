@@ -35,7 +35,7 @@ public:
 
         std::lock_guard<std::mutex> lock(mutex_);
 
-        if(this->full()){
+        if(current_size_ == capacity_){
             // we have too many tasks, need to get rid of the oldest one
             std::cerr << "WARNING: Process Queue full, cannot enqueue new process: " << p->pid << std::endl;
             return false;
@@ -50,7 +50,7 @@ public:
     Process* dequeue(){
         std::lock_guard<std::mutex> lock(mutex_);
 
-        if (empty()){
+        if (this->current_size_ == 0){
             return nullptr;
         }
 
@@ -64,7 +64,7 @@ public:
     Process* peek() {
         std::lock_guard<std::mutex> lock(mutex_);
 
-        if (empty()){
+        if (this->current_size_ == 0){
             return nullptr;
         }
 
