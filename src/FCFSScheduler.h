@@ -5,6 +5,7 @@
 #include <chrono>
 #include <iostream>
 #include <mutex>
+#include <queue>
 
 #include "Process.h"
 #include "CircularBuffer.h"

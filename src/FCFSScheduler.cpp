@@ -5,7 +5,6 @@
 #include <vector>
 #include <chrono>
 
-
 using namespace std::chrono;
 
 FCFSScheduler::FCFSScheduler(int queue_capacity)
